@@ -53,31 +53,10 @@ We are going to run this manually for now.
 2. Create a Service for our pod that will point to RHEL Lightspeed.
 
     ```bash
-    cat <<EOF | oc apply -f -
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: linux-mcp-server
-    spec:
-      internalTrafficPolicy: Cluster
-      ipFamilies:
-        - IPv4
-      ipFamilyPolicy: SingleStack
-      ports:
-        - name: http
-          port: 8000
-          protocol: TCP
-          targetPort: 8000
-      selector:
-        deployment: linux-mcp-server
-      sessionAffinity: None
-      type: ClusterIP
-    status:
-      loadBalancer: {}
-    EOF
+    oc expose deployment linux-mcp-server --port=8000
     ```
 
-2. Install `linux-mcp-server` using pip in the container.
+3. Install `linux-mcp-server` using pip in the container.
 
     ```bash
     oc rsh $(oc get pod -l deployment=linux-mcp-server -o name)
@@ -87,7 +66,7 @@ We are going to run this manually for now.
     pip install linux-mcp-server
     ```
 
-3. Update local ssh keys using the private key from `tools` pod above.
+4. Update local ssh keys using the private key from `tools` pod above.
 
     ```bash
     ssh-keygen
@@ -97,11 +76,10 @@ We are going to run this manually for now.
     vi .ssh/id_tools # use the key from test server - cat .ssh/id_ed25519 from ssh pod
     ```
 
-    ```bash
-    chmod 600 ~/.ssh/id_tools
+    ```bash    chmod 600 ~/.ssh/id_tools
     ```
 
-4. Update the `HostName` to match your namespace/service for tools pod.
+5. Update the `HostName` to match your namespace/service for tools pod.
 
     ```bash
     cat > ~/.ssh/config  << EOF
@@ -120,7 +98,7 @@ We are going to run this manually for now.
     chmod 600 ~/.ssh/config
     ```
 
-5. Test password-less ssh works, add key to know-hosts.
+6. Test password-less ssh works, add key to know-hosts.
 
     ```bash
     ssh tools
@@ -133,7 +111,7 @@ We are going to run this manually for now.
     Last login: Tue Jan 20 07:32:09 2026 from 10.128.0.141
     [root@tools-6d6db694c5-924mj ~]#
 
-6. Hack - fix the mcp server so it talks over Streamable HTTP rather than using the default STDIO.
+7. Hack - fix the mcp server so it talks over Streamable HTTP rather than using the default STDIO.
 
     ```bash
     vi ./.local/lib/python3.12/site-packages/linux_mcp_server/server.py
@@ -141,13 +119,13 @@ We are going to run this manually for now.
 
     Replace the file with [server.py](server.py)
 
-7. Run `linux-mcp-server`
+8. Run `linux-mcp-server`
 
     ```bash
     linux-mcp-server
     ```
 
-8. From your laptop command line that is logged into RHOAI - create the MCP entry for the Playground.
+9. From your laptop command line that is logged into RHOAI - create the MCP entry for the Playground.
 
     ```bash
     cat <<EOF | oc apply -f -
@@ -167,15 +145,15 @@ We are going to run this manually for now.
     EOF
     ```
 
-9. Deploy an LLM with tool calling enabled to use as a GenAI Asset from the Playground. Note the hardware profile and Kueue labels and annotations may need adjusting.
+10. Deploy an LLM with tool calling enabled to use as a GenAI Asset from the Playground. Note the hardware profile and Kueue labels and annotations may need adjusting.
 
     ```bash
     oc apply -f qwen3-no-auth-llmisvc.yaml
     ```
 
-10. From the RHOAI **GenAI Studio** > **Models** - select **Add to playground**. Go into the LlamaStack playground UI.
+11. From the RHOAI **GenAI Studio** > **Models** - select **Add to playground**. Go into the LlamaStack playground UI.
 
-11. Select and authorize the **Linux-MCP-Server**
+12. Select and authorize the **Linux-MCP-Server**
 
 ## Test it out
 
