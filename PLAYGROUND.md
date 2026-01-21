@@ -160,4 +160,4 @@ get me the motd for host=tools
 
 See [Usage docs](https://rhel-lightspeed.github.io/linux-mcp-server/usage/) for more details.
 
-![./images/opencode-rhel-lightspeed.png](images/opencode-rhel-lightspeed.png)
+![./images/playground-rhel-lightspeed.png](images/playground-rhel-lightspeed.png)
