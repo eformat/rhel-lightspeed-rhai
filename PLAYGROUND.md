@@ -138,7 +138,7 @@ We are going to run this manually for now.
     data:
         Linux-MCP-Server: |
         {
-          "url": "http://linux-mcp-server.llama-serving.svc.cluster.local:8000/mcp",
+          "url": "http://linux-mcp-server.baz.svc.cluster.local:8000/mcp",
           "transport": "streamableHttp",
           "description": "Linux MCP Server"
         }
