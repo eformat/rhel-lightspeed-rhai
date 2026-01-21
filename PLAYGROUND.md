@@ -50,6 +50,33 @@ We are going to run this manually for now.
     oc new-app --name=linux-mcp-server quay.io/eformat/web-terminal:latest -l kueue.x-k8s.io/queue-name=default
     ```
 
+2. Create a Service for our pod that will point to RHEL Lightspeed.
+
+    ```bash
+    cat <<EOF | oc apply -f -
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: linux-mcp-server
+    spec:
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: http
+          port: 8000
+          protocol: TCP
+          targetPort: 8000
+      selector:
+        deployment: linux-mcp-server
+      sessionAffinity: None
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+    EOF
+    ```
+
 2. Install `linux-mcp-server` using pip in the container.
 
     ```bash
