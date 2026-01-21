@@ -114,7 +114,7 @@ We are going to run this manually for now.
 7. Hack - fix the mcp server so it talks over Streamable HTTP rather than using the default STDIO.
 
     ```bash
-    vi ./.local/lib/python3.12/site-packages/linux_mcp_server/server.py
+    wget -O ./.local/lib/python3.12/site-packages/linux_mcp_server/server.py https://raw.githubusercontent.com/eformat/rhel-lightspeed-rhai/refs/heads/main/server.py
     ```
 
     Replace the file with [server.py](server.py)
