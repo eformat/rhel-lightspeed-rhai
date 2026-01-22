@@ -5,4 +5,4 @@ RUN sed -i 's/#Port.*$/Port 2222/' /etc/ssh/sshd_config && mkdir /etc/systemd/sy
 RUN echo "We ❤️ RedHat AI" > /etc/motd
 EXPOSE 2222
 ENTRYPOINT ["/sbin/init"]
-CMD ["/sbin/init"]
+CMD []
