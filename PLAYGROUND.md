@@ -148,7 +148,7 @@ We are going to run this manually for now.
 10. Deploy an LLM with tool calling enabled to use as a GenAI Asset from the Playground. Note the hardware profile and Kueue labels and annotations may need adjusting.
 
     ```bash
-    oc apply -f qwen3-no-auth-llmisvc.yaml
+    oc apply -f qwen3-auth-llmisvc.yaml
     ```
 
 11. From the RHOAI **GenAI Studio** > **Models** - select **Add to playground**. Go into the LlamaStack playground UI.
