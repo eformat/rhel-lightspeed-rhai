@@ -139,7 +139,7 @@ We are going to run this manually for now.
         Linux-MCP-Server: |
         {
           "url": "http://linux-mcp-server.baz.svc.cluster.local:8000/mcp",
-          "transport": "streamableHttp",
+          "transport": "streamable-http",
           "description": "Linux MCP Server"
         }
     EOF
